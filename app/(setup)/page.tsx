@@ -1,3 +1,4 @@
+import InitialModal from "@/components/modals/initial-modal";
 import React from "react";
 import { db } from "@/lib/db";
 import { initialProfile } from "@/lib/initial-profile";
@@ -18,7 +19,7 @@ const SetupPage = async () => {
 
     if (server) {
         return redirect(`/servers/${server.id}`);
-    } else return <div>create a server</div>;
+    } else return <InitialModal />;
 };
 
 export default SetupPage;
