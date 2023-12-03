@@ -23,6 +23,7 @@ import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useModal } from "@/hooks/use-modal-store";
 import { useRouter } from "next/navigation";
@@ -37,11 +38,13 @@ const formSchema = z.object({
     }),
 });
 
-export const CreateSeverModal = () => {
-    const { isOpen, onClose, type } = useModal();
+export const EditServerModal = () => {
+    const { isOpen, onClose, type, data } = useModal();
     const router = useRouter();
 
-    const isModalOpen = isOpen && type === "createServer";
+    const isModalOpen = isOpen && type === "editServer";
+
+    const { server } = data;
 
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -51,11 +54,20 @@ export const CreateSeverModal = () => {
         },
     });
 
+    useEffect(() => {
+        if (server) {
+            form.setValue("name", server.name);
+            form.setValue("imageUrl", server.imageUrl);
+        } else {
+            console.log("no server");
+        }
+    }, [form, server]);
+
     const isLoading = form.formState.isSubmitting;
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            await axios.post("/api/servers", values);
+            await axios.patch(`/api/servers/${server?.id}`, values);
 
             form.reset();
             router.refresh();
@@ -129,7 +141,7 @@ export const CreateSeverModal = () => {
                         </div>
                         <DialogFooter className="bg-gray-100 px-6 py-4">
                             <Button variant="primary" disabled={isLoading}>
-                                Create
+                                Save
                             </Button>
                         </DialogFooter>
                     </form>
