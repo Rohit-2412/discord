@@ -1,4 +1,4 @@
-import InitialModal from "@/components/modals/initial-modal";
+import { InitialModal } from "@/components/modals/initial-modal";
 import React from "react";
 import { db } from "@/lib/db";
 import { initialProfile } from "@/lib/initial-profile";

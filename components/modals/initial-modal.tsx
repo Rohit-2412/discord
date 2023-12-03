@@ -21,7 +21,7 @@ import {
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-// import { FileUpload } from "@/components/file-upload";
+import { FileUpload } from "@/components/file-upload";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -37,7 +37,7 @@ const formSchema = z.object({
     }),
 });
 
-const InitialModal = () => {
+export const InitialModal = () => {
     const [isMounted, setIsMounted] = useState(false);
 
     const router = useRouter();
@@ -97,11 +97,11 @@ const InitialModal = () => {
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormControl>
-                                                {/* <FileUpload
+                                                <FileUpload
                                                     endpoint="serverImage"
                                                     value={field.value}
                                                     onChange={field.onChange}
-                                                /> */}
+                                                />
                                             </FormControl>
                                         </FormItem>
                                     )}
@@ -140,5 +140,3 @@ const InitialModal = () => {
         </Dialog>
     );
 };
-
-export default InitialModal;
