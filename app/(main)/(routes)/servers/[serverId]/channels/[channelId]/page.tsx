@@ -1,19 +1,20 @@
 import { redirect, useParams } from "next/navigation";
 
 import { ChatHeader } from "@/components/chat/chat-header";
-import React from "react";
+import { ChatInput } from "@/components/chat/chat-input";
+import { ChatMessages } from "@/components/chat/chat-messages";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { redirectToSignIn } from "@clerk/nextjs";
 
-interface ChannelPageProps {
+interface ChannelIdPageProps {
     params: {
         serverId: string;
         channelId: string;
     };
 }
 
-const ChannelPage = async ({ params }: ChannelPageProps) => {
+const ChannelIdPage = async ({ params }: ChannelIdPageProps) => {
     const profile = await currentProfile();
 
     if (!profile) return redirectToSignIn();
@@ -40,8 +41,33 @@ const ChannelPage = async ({ params }: ChannelPageProps) => {
                 serverId={channel.serverId}
                 type="channel"
             />
+
+            <ChatMessages
+                member={member}
+                name={channel.name}
+                chatId={channel.id}
+                type="channel"
+                apiUrl="/api/messages"
+                socketUrl="/api/socket/messages"
+                socketQuery={{
+                    serverId: channel.serverId,
+                    channelId: channel.id,
+                }}
+                paramKey={"channelId"}
+                paramValue={channel.id}
+            />
+
+            <ChatInput
+                name={channel.name}
+                type="channel"
+                apiUrl="/api/socket/messages"
+                query={{
+                    serverId: channel.serverId,
+                    channelId: channel.id,
+                }}
+            />
         </div>
     );
 };
 
-export default ChannelPage;
+export default ChannelIdPage;
