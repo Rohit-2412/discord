@@ -5,8 +5,8 @@ import { useParams } from "next/navigation";
 
 const ChannelPage = () => {
     const params = useParams();
-    const { id } = params;
-    return <div>ChannelPage for :{id}</div>;
+    const { channelId } = params;
+    return <div>Channel Page for :{channelId}</div>;
 };
 
 export default ChannelPage;
