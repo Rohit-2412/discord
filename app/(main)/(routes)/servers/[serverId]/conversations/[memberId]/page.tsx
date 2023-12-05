@@ -1,13 +1,12 @@
 import { ChatHeader } from "@/components/chat/chat-header";
 import { ChatInput } from "@/components/chat/chat-input";
 import { ChatMessages } from "@/components/chat/chat-messages";
+import { MediaRoom } from "@/components/media-room";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { getOrCreateConversation } from "@/lib/conversation";
 import { redirect } from "next/navigation";
 import { redirectToSignIn } from "@clerk/nextjs";
-
-// import { MediaRoom } from "@/components/media-room";
 
 interface MemberIdPageProps {
     params: {
@@ -62,13 +61,9 @@ const MemberIdPage = async ({ params, searchParams }: MemberIdPageProps) => {
                 serverId={params.serverId}
                 type="conversation"
             />
-            {/* {searchParams.video && (
-        <MediaRoom
-          chatId={conversation.id}
-          video={true}
-          audio={true}
-        />
-      )} */}
+            {searchParams.video && (
+                <MediaRoom chatId={conversation.id} video={true} audio={true} />
+            )}
             {!searchParams.video && (
                 <>
                     <ChatMessages
