@@ -3,7 +3,14 @@
 import * as z from "zod";
 
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { Plus, Smile } from "lucide-react";
+import {
+    Loader2,
+    Plus,
+    Send,
+    SendHorizontalIcon,
+    SendIcon,
+    Smile,
+} from "lucide-react";
 
 import { EmojiPicker } from "../emoji-picker";
 // import { EmojiPicker } from "@/components/emoji-picker";
@@ -88,7 +95,7 @@ export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
                                         }`}
                                         {...field}
                                     />
-                                    <div className="absolute top-7 right-8">
+                                    <div className="absolute top-7 right-8 flex gap-4">
                                         <EmojiPicker
                                             onChange={(emoji: string) =>
                                                 field.onChange(
@@ -96,6 +103,17 @@ export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
                                                 )
                                             }
                                         />
+                                        {isLoading ? (
+                                            <Loader2 className="text-zinc-600 dark:text-zinc-200 animate-spin" />
+                                        ) : (
+                                            <SendHorizontalIcon
+                                                className="text-zinc-600 dark:text-zinc-200"
+                                                size={20}
+                                                onClick={form.handleSubmit(
+                                                    onSubmit
+                                                )}
+                                            />
+                                        )}
                                     </div>
                                 </div>
                             </FormControl>
